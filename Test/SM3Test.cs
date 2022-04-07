@@ -3,7 +3,7 @@ using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SM3CryptographicHashAlgorithm;
 
-namespace UnitTestProject
+namespace Test
 {
     [TestClass]
     public class SM3Test
