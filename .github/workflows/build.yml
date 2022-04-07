@@ -37,11 +37,14 @@ jobs:
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
       - name: Build and analyze
+        shell: powershell
+        run: |
+          dotnet build SM3CryptographicHashAlgorithm.sln
+      - name: Test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"GlitterX_SM3CryptographicHashAlgorithm" /o:"glitterx" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build SM3CryptographicHashAlgorithm.sln
+          dotnet test --no-restore --verbosity normal
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
